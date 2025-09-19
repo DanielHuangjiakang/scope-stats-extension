@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scope Stats</title>
+    <style>
+      body {
+        width: 280px;
+        min-height: 220px;
+        margin: 0;
+        padding: 16px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f7f9fc;
+        color: #1f2933;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+
+      section {
+        margin-bottom: 14px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .section-title {
+        margin: 0 0 6px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #52606d;
+      }
+
+      .bar-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        background: #fff;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+
+      .bar-meta {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bar-label {
+        font-weight: 600;
+        color: #1f2933;
+        margin-bottom: 2px;
+      }
+
+      .bar-track {
+        position: relative;
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        transform-origin: left center;
+        transform: scaleX(0);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #2563eb;
+        color: #fff;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 12px;
+      }
+
+      .bar-value {
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: #1f2933;
+      }
+
+      #pieSection {
+        display: none;
+      }
+
+      #pieSection.visible {
+        display: block;
+      }
+
+      #pieWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #statusPie {
+        width: 160px;
+        height: 160px;
+        display: block;
+      }
+
+      #pieLegend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #52606d;
+      }
+
+      .pie-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .pie-legend-swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+      }
+
+      #unknown,
+      #message,
+      #updated {
+        font-size: 12px;
+        color: #52606d;
+      }
+
+      #message {
+        margin-top: 8px;
+        color: #d64545;
+      }
+
+      button {
+        width: 100%;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 8px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scope Stats</h1>
+    <section id="pieSection">
+      <div class="section-header">
+        <h2 class="section-title">Applied vs Remaining</h2>
+      </div>
+      <div id="pieWrapper">
+        <canvas id="statusPie" width="160" height="160"></canvas>
+        <div id="pieLegend"></div>
+      </div>
+    </section>
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Status Buckets</h2>
+        <div class="badge" id="totalBadge" hidden></div>
+      </div>
+      <div id="statusTotals" class="bar-list"></div>
+    </section>
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Quick Searches</h2>
+      </div>
+      <div id="quickTotals" class="bar-list"></div>
+    </section>
+    <button id="refresh">Refresh from page</button>
+    <div id="updated" style="margin-top:10px;"></div>
+    <div id="unknown"></div>
+    <div id="message"></div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Scope Stats",
+  "description": "Scrape job application statuses from Scope and show quick totals.",
+  "version": "0.1.0",
+  "permissions": ["storage"],
+  "host_permissions": ["*://scope.sciencecoop.ubc.ca/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Scope Stats",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["*://scope.sciencecoop.ubc.ca/*"],
+      "js": ["config.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

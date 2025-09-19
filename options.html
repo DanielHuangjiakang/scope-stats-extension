@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scope Stats Options</title>
+    <style>
+      body {
+        margin: 0 auto;
+        padding: 32px;
+        max-width: 700px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #1f2933;
+        background: #f8fafc;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      code {
+        background: #e4e7eb;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+
+      pre {
+        background: #1f2933;
+        color: #f1f5f9;
+        padding: 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+
+      section {
+        margin-bottom: 24px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+
+      .card h3 {
+        margin-top: 0;
+      }
+
+      .list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #e4e7eb;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .list li:last-child {
+        border-bottom: none;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scope Stats – 配置指南</h1>
+
+    <section>
+      <h2>如何自定义选择器</h2>
+      <ol>
+        <li>打开 Scope 的投递列表页面，按 <code>F12</code> 打开开发者工具。</li>
+        <li>用元素选择器点击某条投递记录，右键复制 selector，粘贴到 <code>config.js</code> 的 <code>itemSelector</code>。</li>
+        <li>重复操作，为职位名、公司、状态分别设置 <code>fields.title</code>、<code>fields.company</code>、<code>fields.status</code>。</li>
+        <li>如果状态列是空白但按钮有文案，可把按钮选择器写在 <code>fields.applyAction</code>，脚本会用它补充状态文本。</li>
+        <li>记录所有可能出现的状态文本，把它们填写在 <code>statusBuckets</code> 里，区分大小写不重要。</li>
+        <li>如果只想在特定页面生效，可在 <code>allowedHosts</code> / <code>allowedPaths</code> 中列出准确的域名与路径。</li>
+        <li>想要显示左侧 Quick Filters 的计数时，再给 <code>quickSearch</code> 填上对应的选择器。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Quick Searches 侧栏</h2>
+      <p>若想在弹窗里同步左侧 “Quick Searches” 小部件的数字，按以下步骤配置：</p>
+      <ol>
+        <li>在开发者工具中选中 Quick Searches 列表里的任意一行，复制选择器到 <code>quickSearch.itemSelector</code>。</li>
+        <li>分别为数字徽章和标题设置 <code>quickSearch.fields.count</code>、<code>quickSearch.fields.label</code>，必要时也可以指向同一个元素。</li>
+        <li>如果想从弹窗点击跳转，设置 <code>quickSearch.fields.link</code> 指向包含 <code>href</code> 的 <code>&lt;a&gt;</code> 元素。</li>
+      </ol>
+      <p>页面上方的 “Total Results” 计数默认通过 <code>totalSelector</code>（当前指向 <code>#totalOverAllPacks</code>）抓取，如有变化请同步修改。</p>
+    </section>
+
+    <section>
+      <h2>当前存储的统计数据</h2>
+      <p>打开 Scope 页面后刷新一次统计，这里会展示最近一次同步的数据。</p>
+      <div class="grid">
+        <div class="card">
+          <h3>状态分布</h3>
+          <ul id="statusPreview" class="list"></ul>
+        </div>
+        <div class="card">
+          <h3>已申请 vs 待申请</h3>
+          <ul id="appliedPreview" class="list"></ul>
+        </div>
+        <div class="card">
+          <h3>Quick Searches</h3>
+          <ul id="quickPreview" class="list"></ul>
+        </div>
+      </div>
+      <details>
+        <summary>查看原始 JSON</summary>
+        <pre id="statsRaw">暂无数据</pre>
+      </details>
+    </section>
+
+    <script src="options.js"></script>
+  </body>
+</html>
